@@ -17,13 +17,13 @@
 # limitations under the License.
 #
 
-provides :ceph_chef_pool
+provides :ceph_chef_pool if defined?(provides)
 
 def whyrun_supported?
   true
 end
 
-use_inline_resources
+use_inline_resources if defined?(use_inline_resources)
 
 action :create do
   if @current_resource.exists
