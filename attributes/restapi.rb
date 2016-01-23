@@ -1,4 +1,7 @@
 #
+# Cookbook Name:: ceph
+# Attributes:: restapi
+#
 # Copyright 2015, Bloomberg Finance L.P.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,18 +19,12 @@
 
 include_attribute 'ceph-chef'
 
-default['ceph']['mds']['init_style'] = node['init_style']
+default['ceph']['restapi']['port'] = 5080
+default['ceph']['restapi']['base_url'] = '/api/v0.1'
+default['ceph']['restapi']['log']['level'] = 'warning'
 
-default['ceph']['mds']['secret_file'] = '/etc/chef/secrets/ceph_chef_mds'
+default['ceph']['restapi']['role'] = 'search-ceph-restapi'
 
-# MUST be set in the wrapper cookbook or chef-repo like project
-default['ceph']['mds']['role'] = 'search-ceph-mds'
+default['ceph']['restapi']['secret_file'] = '/etc/chef/secrets/ceph_chef_restapi'
 
-case node['platform_family']
-when 'debian'
-  packages = ['ceph-mds']
-  packages += debug_packages(packages) if node['ceph']['install_debug']
-  default['ceph']['mds']['packages'] = packages
-else
-  default['ceph']['mds']['packages'] = []
-end
+default['ceph']['restapi']['packages'] = []

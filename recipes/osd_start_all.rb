@@ -32,7 +32,12 @@ if service_type == 'upstart'
     supports :restart => true
   end
 else
-  execute 'raw osd start' do
-    command 'service ceph start osd'
+  # execute 'raw osd start' do
+  #   command 'service ceph start osd'
+  # end
+  service 'ceph_osd' do
+    service_name 'ceph'
+    supports :restart => true, :status => true
+    action [:enable, :start]
   end
 end

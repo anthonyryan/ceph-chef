@@ -25,5 +25,13 @@ node['ceph']['packages'].each do |pck|
   package pck
 end
 
-# Can't put compile_time false because of templates
-chef_gem 'netaddr'
+chef_gem 'netaddr' do
+  source '/tmp/netaddr-1.5.0.gem'
+  action :install
+  only_if 'test -f /tmp/netaddr-1.5.0.gem'
+end
+
+chef_gem 'netaddr' do
+  action :install
+  not_if 'test -f /tmp/netaddr-1.5.0.gem'
+end

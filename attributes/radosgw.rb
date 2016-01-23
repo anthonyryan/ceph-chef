@@ -35,9 +35,18 @@ include_attribute 'ceph-chef'
 
 default['ceph']['radosgw']['api_fqdn'] = 'localhost'
 default['ceph']['radosgw']['admin_email'] = 'admin@example.com'
-default['ceph']['radosgw']['rgw_addr'] = '*:80'
-default['ceph']['radosgw']['rgw_port'] = false
+default['ceph']['radosgw']['port'] = 80
 default['ceph']['radosgw']['webserver'] = 'civetweb'
+
+# OpenStack Keystone specific
+default['ceph']['radosgw']['keystone_admin_token'] = nil
+default['ceph']['radosgw']['keystone_url'] = nil
+default['ceph']['radosgw']['keystone_url_port'] = 35358
+
+default['ceph']['radosgw']['dns_name'] = nil
+
+# Number of RADOS handles RGW has access to - system default = 1
+default['ceph']['radosgw']['rgw_num_rados_handles'] = 5
 
 # init_style in each major section is allowed so that radosgw or osds or mons etc could be a different OS if required.
 # The default is everything on the same OS
@@ -56,7 +65,7 @@ default['ceph']['radosgw']['user']['test']['name'] = 'Tester'
 default['ceph']['radosgw']['user']['test']['access_key'] = ceph_chef_secure_password_alphanum_upper(20)
 default['ceph']['radosgw']['user']['test']['secret'] = ceph_chef_secure_password(40)
 default['ceph']['radosgw']['user']['test']['max_buckets'] = 3
-default['ceph']['radosgw']['user']['test']['caps'] = 'usage=read; user=read; bucket=read;'
+default['ceph']['radosgw']['user']['test']['caps'] = 'usage=read; user=read; bucket=*'
 
 default['ceph']['radosgw']['secret_file'] = '/etc/chef/secrets/ceph_chef_rgw'
 

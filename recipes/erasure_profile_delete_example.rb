@@ -14,20 +14,17 @@
 # limitations under the License.
 #
 
-include_attribute 'ceph-chef'
+# NOTE: There is a default erasure coding profile built into Ceph. However, it is highly recommended that you
+# create other profiles. Also, once a pool has been created using erasure coding it can NOT be changed. If you wish
+# to change the pool you will actually need to create a new pool with a different erasure coding profile and
+# then move the objects from the old pool to the new pool and then remove the old pool.
 
-default['ceph']['mds']['init_style'] = node['init_style']
+# There are recipes here that help do the moving of the objects (future)
 
-default['ceph']['mds']['secret_file'] = '/etc/chef/secrets/ceph_chef_mds'
+include_recipe 'ceph-chef'
 
-# MUST be set in the wrapper cookbook or chef-repo like project
-default['ceph']['mds']['role'] = 'search-ceph-mds'
+# Example use
 
-case node['platform_family']
-when 'debian'
-  packages = ['ceph-mds']
-  packages += debug_packages(packages) if node['ceph']['install_debug']
-  default['ceph']['mds']['packages'] = packages
-else
-  default['ceph']['mds']['packages'] = []
+ceph_chef_erasure 'mytest' do
+  action :delete
 end

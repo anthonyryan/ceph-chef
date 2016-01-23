@@ -14,9 +14,6 @@
 # limitations under the License.
 #
 
-default['ceph']['branch'] = 'stable' # Can be stable, testing or dev.
-# Major release version to install or gitbuilder branch
-default['ceph']['version'] = 'hammer'
 default['ceph']['el_version'] = 'el7'
 default['ceph']['el_add_epel'] = true
 default['ceph']['repo_url'] = 'http://ceph.com'
